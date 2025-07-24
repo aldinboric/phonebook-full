@@ -59,10 +59,10 @@ const App = () => {
   }
 
   const deletePerson = (id) => {
-    personsService.remove(id).then(() => {
+    personsService.remove(id).then(person => {
       setPersons(persons.filter(person => person.id !== id))
       setWarning({
-        message: `Removed ${data.name}!`,
+        message: `Removed ${person.name}!`,
         type: 'notification'
       })
       setTimeout(() => setWarning(), 5000)
