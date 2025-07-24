@@ -15,7 +15,7 @@ const update = async (id, updatedPerson) => {
 }
 
 const remove = (id) => {
-    return axios.delete(`${baseUrl}/${id}`)
+    return axios.delete(`${baseUrl}/${id}`).then(response => response.data)
 }
 
 export default {
