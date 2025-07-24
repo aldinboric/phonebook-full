@@ -30,6 +30,11 @@ const App = () => {
         const personTmp = persons.filter(person => person.name === newName)[0]
         personsService.update(personTmp.id, {...personTmp, number: newNumber}).then(data => {
           setPersons(persons.map(person => person.id !== personTmp.id ? person : data))
+          setWarning({
+            message: `Number updated for person "${personTmp.name}"!`,
+            type: 'notification'
+          })
+          setTimeout(() => setWarning(), 5000)
         }).catch(error => {
           setWarning({
             message: `Information of ${personTmp.name} has already been removed from the server!`,
@@ -39,16 +44,16 @@ const App = () => {
           setTimeout(() => setWarning(), 5000)
         })
     } else {
-        personsService.create({name: newName, number: newNumber, id: `${persons.length + 1}`}).then(data => {
-        setPersons([...persons, data])
-        personsTrie.addPerson(data.name)
-        setWarning({
-          message: `Added ${data.name}!`,
-          type: 'notification'
-        })
-        setTimeout(() => setWarning(), 5000)
-        setNewName('')
-        setnewNumber('')
+        personsService.create({name: newName, number: newNumber}).then(data => {
+          setPersons([...persons, data])
+          personsTrie.addPerson(data.name)
+          setWarning({
+            message: `Added new person "${data.name}"!`,
+            type: 'notification'
+          })
+          setTimeout(() => setWarning(), 5000)
+          setNewName('')
+          setnewNumber('')
       })
     }
   }
@@ -56,6 +61,11 @@ const App = () => {
   const deletePerson = (id) => {
     personsService.remove(id).then(() => {
       setPersons(persons.filter(person => person.id !== id))
+      setWarning({
+        message: `Removed ${data.name}!`,
+        type: 'notification'
+      })
+      setTimeout(() => setWarning(), 5000)
     })
   }
 
