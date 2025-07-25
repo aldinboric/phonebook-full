@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import personsService from './services/personsService'
 import createTrie from './services/personsFilterService'
-
+ 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [personsTrie, setPersonsTrie] = useState(createTrie([]))
@@ -31,7 +31,7 @@ const App = () => {
         personsService.update(personTmp.id, {...personTmp, number: newNumber}).then(data => {
           setPersons(persons.map(person => person.id !== personTmp.id ? person : data))
           setWarning({
-            message: `Number updated for person "${personTmp.name}"!`,
+            message: `Number updated for person "${personTmp.name}".`,
             type: 'notification'
           })
           setTimeout(() => setWarning(), 5000)
