@@ -36,11 +36,19 @@ const App = () => {
           })
           setTimeout(() => setWarning(), 5000)
         }).catch(error => {
-          setWarning({
-            message: `Information of ${personTmp.name} has already been removed from the server!`,
-            type: 'warning'
-          })
-          setPersons(persons.filter(person => person.name != personTmp.name))
+          if (error.response.statusText === 'Bad Request') {
+            setWarning({
+              message: error.response.data.error,
+              type: 'warning'
+            })
+          } else {
+            setWarning({
+              message: `Information of ${personTmp.name} has already been removed from the server!`,
+              type: 'warning'
+            })
+            setPersons(persons.filter(person => person.name != personTmp.name))
+          }
+        
           setTimeout(() => setWarning(), 5000)
         })
     } else {

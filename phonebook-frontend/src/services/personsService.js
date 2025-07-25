@@ -14,7 +14,7 @@ const update = async (id, updatedPerson) => {
     return axios.put(`${baseUrl}/${id}`, updatedPerson).then(response => response.data)
 }
 
-const remove = (id) => {
+const remove = async (id) => {
     return axios.delete(`${baseUrl}/${id}`).then(response => response.data)
 }
 

@@ -1,22 +1,24 @@
 const mongoose = require('mongoose')
 
-mongoose.set('strictQuery', false)
+mongoose.set('strictQuery', true)
 
-const url = process.env.MONGODB_URI
-
-console.log(`Connecting to ${url}.`)
-mongoose.connect(url).then(response => {
-    console.log(`Connected to ${url}.`)
-}).catch(error => {
-    console.log(`Error: ${error.message}.`)
-})
-
-const personSchema = new mongoose.Schema(
-    {
-        name: String,
-        number: String
+const personSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        minLength: 5,
+        required: [true, 'Person name is required!']
+    },
+    number: {
+        type: String,
+        validate: {
+            validator: (number) => {
+                return /^(\d{2})\s(\d{3})-(\d{3})-(\d{3})$/.test(number)
+            },
+            message: ({ number }) => `${number} is not a valid phone number!`
+        },
+        required: [true, 'Person phone number is required!']
     }
-)
+})
 
 personSchema.set('toJSON', {
     transform: (document, returnedObject) => {
